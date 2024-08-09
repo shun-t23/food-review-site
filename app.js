@@ -9,6 +9,7 @@ const app = express();
   res.endは、Node.jsのHTTPレスポンスオブジェクトのメソッドで、レスポンスの終了を示す。
   res.endを呼び出すと、サーバーはクライアントにレスポンスデータを送信し、レスポンスを終了。
   app.setでejs拡張子をもつテンプレエンジンと使用することを認識させる
+  x-powerd-byをdisabledで非表示にする（サーバー情報）
 */
 
 // app.get('/', (req, res) => {
@@ -16,6 +17,7 @@ const app = express();
 // });
 
 app.set('view engine', 'ejs');
+app.disable('x-powered-by');
 
 // 静的コンテンツの配信
 app.use(favicon(path.join(__dirname, '/public/favicon.ico')));
