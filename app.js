@@ -13,6 +13,8 @@ const app = express();
   res.endを呼び出すと、サーバーはクライアントにレスポンスデータを送信し、レスポンスを終了。
   app.setでejs拡張子をもつテンプレエンジンと使用することを認識させる
   x-powerd-byをdisabledで非表示にする（サーバー情報）
+  app.useは、全てのHTTPメソッド（GET, POST, PUT, DELETEなど）に対応するルートハンドラーを設定する
+__dirname は、Node.js 環境で使用される特殊な変数で、現在実行中のスクリプトが存在するディレクトリの絶対パスを示します。
 */
 
 // app.get('/', (req, res) => {
@@ -31,6 +33,32 @@ app.use(accessloger());
 
 // 動的コンテンツ配信
 app.use('/', require('./routes/index.js'));
+
+/* 
+/test へのリクエストが来たときに、指定されたミドルウェア関数が実行されます。
+@garafu/mysql-fileloader モジュールをインポートしています。
+　このモジュールは、SQLファイルを読み込んでその内容を処理する機能を提供します。
+
+conでコネクションを作成している。
+promisifyを使ってコールバック地獄を回避している
+*/
+app.use('/test', async (req, res, next) => {
+  const { MySQLClient, sql } = require('./lib/database/client.js');
+  var data;
+
+  try {
+    await MySQLClient.connect();
+    // root配下の以下のファイルのsqlを実行する
+    data = await MySQLClient.query(await sql('SELECT_SHOP_BASIC_BY_ID'), [1]);
+    console.log(data);
+  } catch (err) {
+    next(err);
+  } finally {
+    await MySQLClient.end();
+  }
+
+  res.end('OK');
+});
 
 // application log
 app.use(applicationlogger());
