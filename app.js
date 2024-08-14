@@ -38,6 +38,7 @@ app.use('/public', express.static(path.join(__dirname, '/public')));
 app.use(accessloger());
 
 // 動的コンテンツ配信
+app.use('/search', require('./routes/search.js'));
 app.use('/shops', require('./routes/shops.js'));
 app.use('/', require('./routes/index.js'));
 
