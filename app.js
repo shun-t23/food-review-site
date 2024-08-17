@@ -37,6 +37,9 @@ app.use('/public', express.static(path.join(__dirname, '/public')));
 // access log
 app.use(accessloger());
 
+// ミドルウェアをセットする
+app.use(express.urlencoded({ extended: true }));
+
 // 動的コンテンツ配信
 // トランザクションのテスト
 // app.get('/test', async (req, res, next) => {
