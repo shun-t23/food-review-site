@@ -5,6 +5,7 @@ const accessloger = require('./lib/log/accesslogger.js');
 const applicationlogger = require('./lib/log/applicationlogger.js');
 const express = require('express');
 const favicon = require('serve-favicon');
+const cookie = require('cookie-parser');
 const app = express();
 
 /* 
@@ -38,7 +39,15 @@ app.use('/public', express.static(path.join(__dirname, '/public')));
 app.use(accessloger());
 
 // ミドルウェアをセットする
+// cookieの利用をセット
+app.use(cookie());
 app.use(express.urlencoded({ extended: true }));
+// cookieを使うサンプル実装
+// app.use((req, res, next) => {
+//   console.log(req.cookies.message);
+//   res.cookie('message', 'hello world');
+//   next();
+// });
 
 // 動的コンテンツ配信
 // トランザクションのテスト
