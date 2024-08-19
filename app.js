@@ -4,6 +4,7 @@ const path = require('path');
 const logger = require('./lib/log/logger.js');
 const accessloger = require('./lib/log/accesslogger.js');
 const applicationlogger = require('./lib/log/applicationlogger.js');
+const accesscontrol = require('./lib/security/accesscontrol.js');
 const express = require('express');
 const favicon = require('serve-favicon');
 const cookie = require('cookie-parser');
@@ -11,6 +12,7 @@ const cookie = require('cookie-parser');
 // セッションのセット
 const session = require('express-session');
 const MySQLStore = require('express-mysql-session')(session);
+const flash = require('connect-flash');
 const app = express();
 
 /* 
@@ -64,6 +66,8 @@ app.use(
   })
 );
 app.use(express.urlencoded({ extended: true }));
+app.use(flash());
+app.use(...accesscontrol.initialize());
 // cookieを使うサンプル実装
 // app.use((req, res, next) => {
 //   console.log(req.cookies.message);
