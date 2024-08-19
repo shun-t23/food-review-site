@@ -2,7 +2,7 @@ const path = require('path');
 
 // __dirname は、Node.js において「現在のスクリプトファイルが存在するディレクトリ」の絶対パスを指す。
 const LOG_ROOT_DIR =
-  process.env.LOG_ROOT_DIR || path.join(__dirname, '../logs');
+  process.env.LOG_ROOT_DIR || path.join(process.cwd(), './logs');
 
 module.exports = {
   appenders: {
