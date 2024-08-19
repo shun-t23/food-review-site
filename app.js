@@ -65,7 +65,8 @@ app.use(
     },
     secret: appconfig.security.SESSION_SECRET,
     resave: false,
-    saveUninitialized: true,
+    // セッションを自動的に設定しない
+    saveUninitialized: false,
     name: 'sid',
   })
 );
