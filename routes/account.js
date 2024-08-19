@@ -14,6 +14,10 @@ router.get('/login', (req, res) => {
 });
 
 router.post('/login', authenticate());
+router.post('/logout', (req, res, next) => {
+  req.logOut();
+  res.redirect('/account/login');
+});
 
 router.use(
   '/reviews',
